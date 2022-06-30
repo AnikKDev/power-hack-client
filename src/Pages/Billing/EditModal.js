@@ -12,7 +12,7 @@ const EditModal = ({ billDetail }) => {
             email: data.email
         };
 
-        fetch(`http://localhost:5000/update-billing/${_id}`, {
+        fetch(`https://rocky-gorge-79566.herokuapp.com/update-billing/${_id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'

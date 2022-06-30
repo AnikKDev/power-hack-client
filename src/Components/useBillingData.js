@@ -5,7 +5,7 @@ const useBillingData = () => {
     // const [billings, setBillings] = useState([]);
 
     const { isLoading, data: billings, refetch } = useQuery('bills', () =>
-        fetch('http://localhost:5000/billing-list')
+        fetch('https://rocky-gorge-79566.herokuapp.com/billing-list')
             .then(res => res.json())
     )
     return [isLoading, billings, refetch];

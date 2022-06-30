@@ -13,7 +13,7 @@ const BillingModal = () => {
             paidAmount: data.paidamount
         };
         console.log(billingDetail);
-        fetch('http://localhost:5000/add-billing', {
+        fetch('https://rocky-gorge-79566.herokuapp.com/add-billing', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

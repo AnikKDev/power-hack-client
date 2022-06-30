@@ -24,7 +24,7 @@ const BillingTable = () => {
     })
     .then((willDelete) => {
       if (willDelete) {
-        fetch(`http://localhost:5000/delete-billing/${id}`, {
+        fetch(`https://rocky-gorge-79566.herokuapp.com/delete-billing/${id}`, {
                 method: 'DELETE',
             })
                 .then(res => res.json())
@@ -51,7 +51,7 @@ const BillingTable = () => {
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    fetch(`http://localhost:5000/delete-billing/${id}`, {
+                    fetch(`https://rocky-gorge-79566.herokuapp.com/delete-billing/${id}`, {
                         method: 'DELETE',
                     })
                         .then(res => res.json())
