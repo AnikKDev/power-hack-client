@@ -1,9 +1,30 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
+import useBillingData from '../../Components/useBillingData';
+import Spinner from '../../Utilities/Spinner';
 const BillingModal = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const onSubmit = (data) => console.log(data);
-    // const numberValidation = /^([0-9]\d{9})?$/
+    const onSubmit = (data) => {
+        const billingDetail = {
+            fullName: data.fullname,
+            email: data.email,
+            phone: data.phone,
+            paidAmount: data.paidamount
+        };
+        console.log(billingDetail);
+        fetch('http://localhost:5000/add-billing', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(billingDetail)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+    };
+
     return (
         <div>
             {/* <!-- Put this part before </body> tag --> */}
@@ -25,12 +46,13 @@ const BillingModal = () => {
                         {errors.email && <p className="text-error">Email is required</p>}
 
                         <input
-                            required
+
                             {...register("phone", {
+                                required: true,
                                 pattern: /^([0-9]\d{10})?$/
                             })}
                             type="number" placeholder="Phone" class="input input-bordered w-full max-w-xs" />
-                        {errors.phone && <p className="text-error">Phone is required</p>}
+                        {errors.phone && <p className="text-error">Invalid Phone Number</p>}
 
                         <input
                             {...register("paidamount", { required: true })}
