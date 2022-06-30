@@ -2,8 +2,9 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import useBillingData from '../../Components/useBillingData';
 import Spinner from '../../Utilities/Spinner';
+import swal from 'sweetalert';
 const BillingModal = () => {
-    const { register, formState: { errors }, handleSubmit } = useForm();
+    const { register, formState: { errors }, handleSubmit, reset } = useForm();
     const onSubmit = (data) => {
         const billingDetail = {
             fullName: data.fullname,
@@ -21,8 +22,13 @@ const BillingModal = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                console.log(data);
+                if (data.acknowledged) {
+                    swal("Updated", "success");
+                    reset();
+                }
             })
+        reset();
     };
 
     return (
