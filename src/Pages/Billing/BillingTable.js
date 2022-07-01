@@ -15,12 +15,12 @@ const BillingTable = () => {
     const [size, setSize] = useState(10);
 
     const { isLoading, data: billings, refetch } = useQuery(['bills', page, size], () =>
-        fetch(`http://localhost:5000/billing-list?page=${page}&size=${size}`)
+        fetch(`https://rocky-gorge-79566.herokuapp.com/billing-list?page=${page}&size=${size}`)
             .then(res => res.json())
     )
 
     useEffect(() => {
-        fetch('http://localhost:5000/productCount')
+        fetch('https://rocky-gorge-79566.herokuapp.com/productCount')
             .then(res => res.json())
             .then(data => {
                 const count = data.count;
