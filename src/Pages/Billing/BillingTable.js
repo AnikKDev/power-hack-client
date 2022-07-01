@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import swal from 'sweetalert';
 import useBillingData from '../../Components/useBillingData';
 import Spinner from '../../Utilities/Spinner';
@@ -7,38 +8,27 @@ import EditModal from './EditModal';
 
 const BillingTable = () => {
     // fetch billing datas
-    const [isLoading, billings, refetch] = useBillingData();
+    // const [isLoading, billings, refetch] = useBillingData();
     const [billDetail, setBillDetail] = useState({});
+    const [pageCount, setPageCount] = useState(0);
+    const [page, setPage] = useState(0);
+    const [size, setSize] = useState(10);
 
-    // console.log(billings);
-    // const numberValidation = /^([0-9]\d{9})?$/
+    const { isLoading, data: billings, refetch } = useQuery(['bills', page, size], () =>
+        fetch(`http://localhost:5000/billing-list?page=${page}&size=${size}`)
+            .then(res => res.json())
+    )
 
-
-    /* 
-    swal({
-      title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this imaginary file!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-        fetch(`https://rocky-gorge-79566.herokuapp.com/delete-billing/${id}`, {
-                method: 'DELETE',
+    useEffect(() => {
+        fetch('http://localhost:5000/productCount')
+            .then(res => res.json())
+            .then(data => {
+                const count = data.count;
+                const pages = Math.ceil(count / 10);
+                setPageCount(pages);
             })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data)
-                })
-        swal("Poof! Your imaginary file has been deleted!", {
-          icon: "success",
-        });
-      } else {
-        swal("Your imaginary file is safe!");
-      }
-    });
-    */
+    }, [])
+
 
 
     const deleteBill = id => {
@@ -103,6 +93,15 @@ const BillingTable = () => {
                 </tbody>
             </table>
             <EditModal billDetail={billDetail} />
+
+            {/* pagination btn */}
+            <div class="btn-group justify-center mt-10">
+                {
+                    [...Array(pageCount).keys()].map(number =>
+                        <button onClick={() => setPage(number)} class={page === number ? 'btn-active btn mx-1' : 'btn mx-1'}>{number + 1}</button>
+                    )
+                }
+            </div>
         </div>
     );
 };

@@ -24,7 +24,7 @@ const BillingModal = () => {
             .then(data => {
                 console.log(data);
                 if (data.acknowledged) {
-                    swal("Updated", "success");
+                    swal("Added", "Successfully Added", "success");
                     reset();
                 }
             })
